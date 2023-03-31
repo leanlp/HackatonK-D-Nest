@@ -4,12 +4,20 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const corsOptions = {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+    allowedHeaders: "Content-Type, Accept, Authorization",
+  }
+app.enableCors(corsOptions);
   const config = new DocumentBuilder()
-    .setTitle('LitDev example')
-    .setDescription('The cats API description')
+    .setTitle('Api example')
+    .setDescription('API description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('tag')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
@@ -17,3 +25,4 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
+
